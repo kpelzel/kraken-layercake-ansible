@@ -7,11 +7,13 @@
     state: present
 
 - name: Pull latest virt image of kraken-layercake
+  become: true
   containers.podman.podman_image:
     name: docker.io/krakenhpc/kraken-layercake
     tag: latest
 
 - name: Create Kraken container
+  become: true
   containers.podman.podman_container:
     name: '{{ "kraken-layercake-virt" if kr_with_vbox else "kraken-layercake" }}'
     image: docker.io/krakenhpc/kraken-layercake
@@ -20,7 +22,7 @@
       - /tftp
       - /etc/kraken
     network: host
-    cmd_args:
+    command:
       - -config /etc/kraken/config.yaml
       - -sdnotify
       - -noprefix

@@ -3,7 +3,7 @@
   become: true
   template:
     src: "kraken-layercake.service.j2"
-    dest: "/usr/lib/systemd/system/kraken-layercake.service"
+    dest: "/usr/lib/systemd/system/{{ 'kraken-layercake-virt.service' if kr_with_vbox else 'kraken-layercake.service' }}"
     owner: root
     group: root
     mode: 0644
@@ -14,12 +14,12 @@
   shell:
     cmd: >
       podman run kraken-layercake 
-      /usr/sbin/{{ "kraken-layercake-virt" if kr_with_vbox else "kraken-layercake" }} -printrc
-      -id "{{ kraken_id }}"
-      -ip "{{ kraken_ip }}"
-      -ipapi "{{ kraken_ipapi }}"
-      -log "{{ kraken_loglevel }}"
-      -state "{{ kraken_state_file }}"
+      -printrc 
+      -id "{{ kraken_id }}" 
+      -ip "{{ kraken_ip }}" 
+      -ipapi "{{ kraken_ipapi }}" 
+      -log "{{ kraken_loglevel }}" 
+      -state "{{ kraken_state_file }}" 
       > /etc/kraken/{{ "layercake-virt" if kr_with_vbox else "layercake" }}/config.yaml
       && touch /etc/kraken/.ansible_config
     creates: /etc/kraken/.ansible_config
