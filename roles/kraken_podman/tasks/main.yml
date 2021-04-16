@@ -1,0 +1,26 @@
+---
+- name: Install podman
+  become: true
+  package:
+    name:
+      - podman
+    state: present
+
+- name: Pull latest virt image of kraken-layercake
+  containers.podman.podman_image:
+    name: docker.io/krakenhpc/kraken-layercake
+    tag: latest
+
+- name: Create Kraken container
+  containers.podman.podman_container:
+    name: '{{ "kraken-layercake-virt" if kr_with_vbox else "kraken-layercake" }}'
+    image: docker.io/krakenhpc/kraken-layercake
+    state: created
+    volume:
+      - /tftp
+      - /etc/kraken
+    network: host
+    cmd_args:
+      - -config /etc/kraken/config.yaml
+      - -sdnotify
+      - -noprefix

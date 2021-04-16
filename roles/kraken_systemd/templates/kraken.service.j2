@@ -6,7 +6,8 @@ Requires=network.target
 [Service]
 Type=notify
 WorkingDirectory={{ ansible_env.HOME }}
-ExecStart=/usr/sbin/{{ "kraken-layercake-vbox" if kr_with_vbox else "kraken-layercake" }} -config /etc/kraken/config.yaml -sdnotify -noprefix
+ExecStart=/usr/bin/podman start -a {{ "kraken-layercake-virt" if kr_with_vbox else "kraken-layercake" }}
+ExecStop=/usr/bin/podman stop -t 10 {{ "kraken-layercake-virt" if kr_with_vbox else "kraken-layercake" }}
 
 [Install]
 WantedBy=multi-user.target

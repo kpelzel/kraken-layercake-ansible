@@ -23,7 +23,7 @@ kr_release: "rc1"
 
 ### Computed values
 kr_rpm_path: "{{ ansible_env.HOME }}/rpmbuild/RPMS/x86_64/\
-             kraken-layercake-{{ 'vbox-' if kr_with_vbox else '' }}\
-             {{ kr_version }}-{{ kr_release }}\
-             .{{ kr_rpm_dist}}.x86_64.rpm"
-kr_target: "{{ 'kraken-layercake-vbox' if kr_vbox else 'kraken-layercake'}}"
+  kraken-layercake-{{ 'vbox-' if kr_with_vbox else '' }}\
+  {{ kr_version }}-{{ kr_release }}\
+  .{{ kr_rpm_dist}}.x86_64.rpm"
+kr_target: "{{ 'kraken-layercake-virt' if kr_vbox else 'kraken-layercake'}}"
